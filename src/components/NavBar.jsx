@@ -14,14 +14,20 @@ const NavBar = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+
+      // ✅ Clear local storage and session storage
       localStorage.removeItem("firebaseAuth");
       localStorage.removeItem("userToken");
       sessionStorage.removeItem("firebaseAuth");
 
       setDropdownOpen(false);
       setMenuOpen(false);
-      navigate("/login");
-      window.location.reload(); // Forces a full reload to clear auth state
+
+      // ✅ Ensure navigation happens only after auth state update
+      setTimeout(() => {
+        navigate("/login");
+        window.location.reload(); // Full reload to ensure clean auth state
+      }, 300);
     } catch (error) {
       console.error("Logout Error:", error);
     }
