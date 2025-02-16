@@ -1,4 +1,4 @@
-### 📚 **Course App**
+# 📚 **Course App**
 
 A **full-stack** course management platform built with **React.js, Firebase, Redux Toolkit, and Tailwind CSS**. Users can browse courses, enroll, manage their profile, and track progress.
 
@@ -11,6 +11,7 @@ A **full-stack** course management platform built with **React.js, Firebase, Red
 - 🏫 **Enrollments**: Users can enroll in courses and track their progress.
 - ❤️ **Likes**: Users can like their favorite courses.
 - 📋 **Dashboard**: Enrolled courses are displayed in the dashboard with real-time updates.
+- 💳 **Payments**: Integrated payment processing (simulated with Firestore).
 - 📱 **Responsive Design**: Fully optimized UI using **Tailwind CSS**.
 
 ---
@@ -19,8 +20,8 @@ A **full-stack** course management platform built with **React.js, Firebase, Red
 
 - **Frontend**: React.js, Tailwind CSS, React Router
 - **State Management**: Redux Toolkit
-- **Backend**: Firebase (Firestore, Authentication)
-- **Deployment**: Vercel / Netlify
+- **Backend**: Firebase (Firestore, Authentication), Express.js
+- **Deployment**: Vercel / Netlify (Frontend) & Render / Firebase Functions (Backend)
 - **Database**: Firestore (NoSQL)
 - **Icons**: React Icons
 
@@ -143,19 +144,75 @@ The app runs at **http://localhost:5173**
 
 ---
 
-## 🚀 **Deployment**
+## 🌐 **Backend Server Setup**
 
-### **🔹 Build for Production**
+To manage the **course data**, we need to run an **Express.js server** that adds courses to Firestore.
+
+### **1️⃣ Install Dependencies**
+
+Navigate to the server directory and install required packages:
 
 ```sh
-npm run build
+cd server
+npm install
 ```
 
-### **🔹 Deploy to Vercel**
+### **2️⃣ Setup Firebase Admin SDK**
+
+1️⃣ **Create a Firebase Service Account**
+
+- Go to **Firebase Console** → Project Settings → Service Accounts
+- Click **Generate new private key** and download `serviceAccountKey.json`
+
+2️⃣ **Move the key file to the server folder**
+
+- Place the downloaded file inside `/server/`
+
+3️⃣ **Add `.env` for the server**
+
+Create a `.env` file in `/server/` and add:
+
+```sh
+FIREBASE_PROJECT_ID=your-project-id
+FIREBASE_CLIENT_EMAIL=your-client-email
+FIREBASE_PRIVATE_KEY="your-private-key"
+```
+
+**IMPORTANT:** The private key must be wrapped in **quotes** to avoid issues.
+
+### **3️⃣ Start Server**
+
+```sh
+npm start
+```
+
+### **4️⃣ Add Sample Courses**
+
+To add sample courses to Firestore, **run the server once** and make a POST request.
+
+```sh
+curl -X POST http://localhost:5000/add-courses
+```
+
+This will populate Firestore with predefined courses.
+
+---
+
+## 🚀 **Deployment**
+
+### **🔹 Deploy Frontend to Vercel**
 
 ```sh
 vercel deploy
 ```
+
+### **🔹 Deploy Backend to Render**
+
+1️⃣ **Push the server folder to GitHub**  
+2️⃣ **Go to [Render](https://render.com/)** → New Web Service  
+3️⃣ **Connect to GitHub** and select the repository  
+4️⃣ **Set up environment variables** from `.env`  
+5️⃣ Click **Deploy**
 
 ---
 
