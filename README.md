@@ -206,14 +206,6 @@ This will populate Firestore with predefined courses.
 vercel deploy
 ```
 
-### **🔹 Deploy Backend to Render**
-
-1️⃣ **Push the server folder to GitHub**  
-2️⃣ **Go to [Render](https://render.com/)** → New Web Service  
-3️⃣ **Connect to GitHub** and select the repository  
-4️⃣ **Set up environment variables** from `.env`  
-5️⃣ Click **Deploy**
-
 ---
 
 ## 📝 **Future Enhancements**
