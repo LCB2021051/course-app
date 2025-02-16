@@ -7,11 +7,11 @@ A **full-stack** course management platform built with **React.js, Firebase, Red
 ## 🚀 **Features**
 
 - 🔐 **Authentication**: Google-based sign-in using Firebase.
-- 📚 **Courses**: View and search for courses.
-- 🏫 **Enrollments**: Users can enroll in courses and track progress.
-- ❤️ **Likes**: Users can like courses.
-- 📋 **Dashboard**: View enrolled courses with real-time updates.
-- 📱 **Responsive Design**: Fully responsive UI using Tailwind CSS.
+- 📚 **Courses**: Users can view and search for courses.
+- 🏫 **Enrollments**: Users can enroll in courses and track their progress.
+- ❤️ **Likes**: Users can like their favorite courses.
+- 📋 **Dashboard**: Enrolled courses are displayed in the dashboard with real-time updates.
+- 📱 **Responsive Design**: Fully optimized UI using **Tailwind CSS**.
 
 ---
 
@@ -43,7 +43,7 @@ npm install
 
 ### **3️⃣ Setup Firebase**
 
-Create a **.env** file in the root and add:
+Create a **.env** file in the root directory and add:
 
 ```sh
 VITE_FIREBASE_API_KEY=your-api-key
@@ -88,70 +88,11 @@ The app runs at **http://localhost:5173**
 
 ### **📝 Redux Slices**
 
-📌 **studentSlice.js** - Handles authentication  
-📌 **courseSlice.js** - Fetches courses  
-📌 **enrolmentsSlice.js** - Manages enrollments  
-📌 **likesSlice.js** - Tracks course likes
-
----
-
-## 🔄 **Redux Thunks**
-
-### **1️⃣ Fetch Courses**
-
-```js
-export const fetchCourses = createAsyncThunk(
-  "courses/fetchCourses",
-  async (_, { rejectWithValue }) => {
-    try {
-      const querySnapshot = await getDocs(collection(db, "courses"));
-      return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-```
-
-### **2️⃣ Enroll a Student**
-
-```js
-export const enrolStudent = createAsyncThunk(
-  "enrolments/enroll",
-  async ({ userId, courseId }, { rejectWithValue }) => {
-    try {
-      await addDoc(collection(db, "enrolments"), {
-        studentId: userId,
-        courseId,
-      });
-      return { userId, courseId };
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-```
-
-### **3️⃣ Process Payment**
-
-```js
-export const processPayment = createAsyncThunk(
-  "payment/process",
-  async ({ userId, courseId, amount }, { rejectWithValue }) => {
-    try {
-      const docRef = await addDoc(collection(db, "payments"), {
-        userId,
-        courseId,
-        amount,
-        timestamp: serverTimestamp(),
-      });
-      return { id: docRef.id, userId, courseId, amount };
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-```
+- 📌 **studentSlice.js** - Manages authentication (Google sign-in, logout)
+- 📌 **courseSlice.js** - Fetches and stores courses
+- 📌 **enrolmentsSlice.js** - Handles enrollments
+- 📌 **likesSlice.js** - Manages course likes
+- 📌 **paymentsSlice.js** - Processes payments
 
 ---
 
@@ -185,6 +126,18 @@ export const processPayment = createAsyncThunk(
 {
   "userId": "user123",
   "courseId": "course123"
+}
+```
+
+### **4️⃣ Payments Collection**
+
+```json
+{
+  "userId": "user123",
+  "courseId": "course123",
+  "amount": 999,
+  "timestamp": "2024-02-15T12:30:00",
+  "status": "Success"
 }
 ```
 
@@ -227,5 +180,3 @@ Feel free to contribute by submitting a **pull request**. Open issues if you fin
 📧 **Email**: [lcb2021051@iiitl.ac.in](mailto:lcb2021051@iiitl.ac.in)  
 🔗 **LinkedIn**: [linkedin.com/in/vivek-korah](https://www.linkedin.com/in/vivek-korah-0b39b7233/)  
 💻 **GitHub**: [github.com/LCB2021051](https://github.com/LCB2021051)
-
----
