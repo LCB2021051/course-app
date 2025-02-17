@@ -11,6 +11,7 @@ const GetEnrolled = ({ courseId, amount }) => {
   const [userId, setUserId] = useState(null);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [progress, setProgress] = useState(0); // Store progress from enrolments
 
   // Fetch authenticated user
   useEffect(() => {
@@ -30,12 +31,18 @@ const GetEnrolled = ({ courseId, amount }) => {
     (state) => state.enrolments
   );
 
-  // Check if user is already enrolled
-  const isEnrolled = userId
-    ? allEnrollments.some(
+  // Check if user is already enrolled & fetch progress
+  const enrolment = userId
+    ? allEnrollments.find(
         (en) => en.studentId === userId && en.courseId === courseId
       )
-    : false;
+    : null;
+
+  useEffect(() => {
+    if (enrolment) {
+      setProgress(enrolment.progress || 0); // Set progress if available
+    }
+  }, [enrolment]);
 
   const handlePayment = async () => {
     if (!userId) {
@@ -67,17 +74,31 @@ const GetEnrolled = ({ courseId, amount }) => {
     setShowPopup(false);
   };
 
-  if (isEnrolled) {
+  // 🔹 Show Progress Bar if Enrolled
+  if (enrolment) {
     return (
-      <button
-        disabled
-        className="w-full px-6 py-3 text-white bg-green-500 rounded-lg cursor-not-allowed"
-      >
-        Enrolled
-      </button>
+      <div className="w-full">
+        {progress === 100 ? (
+          <p className="text-green-600 text-sm font-semibold mb-1">
+            Completed 🎉
+          </p>
+        ) : (
+          <p className="text-gray-700 text-sm mb-1">Progress: {progress}%</p>
+        )}
+
+        <div className="w-full bg-gray-200 rounded-full h-4">
+          <div
+            className={`h-full rounded-full transition-all ${
+              progress === 100 ? "bg-green-500" : "bg-blue-500"
+            }`}
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+      </div>
     );
   }
 
+  // 🔹 Show Payment Button if Not Enrolled
   return (
     <div>
       <button
