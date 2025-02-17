@@ -19,8 +19,6 @@ const CoursePage = () => {
     (state) => state.courses
   );
 
-  // console.log(currentCourse);
-
   // Local State
   const [userId, setUserId] = useState(null);
   const [hasLiked, setHasLiked] = useState(false);
@@ -168,21 +166,23 @@ const CoursePage = () => {
           </div>
 
           {/* 📌 Display Prerequisites Below */}
-          {currentCourse.prerequisites &&
-            currentCourse.prerequisites.length > 0 && (
-              <div className="mt-6">
-                <h4 className="text-lg font-semibold text-gray-800">
-                  Prerequisites
-                </h4>
-                <ul className="list-disc list-inside text-gray-600 mt-2">
-                  {currentCourse.prerequisites.map((prereq, index) => (
-                    <li key={index} className="text-gray-700">
-                      {prereq}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+          {currentCourse.prerequisites?.length > 0 && (
+            <div className="p-6">
+              <h4 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">
+                Prerequisites
+              </h4>
+              <ul className="space-y-2 text-gray-700">
+                {currentCourse.prerequisites.map((prereq, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center gap-2 text-gray-800"
+                  >
+                    <span className="text-blue-500">✔</span> {prereq}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>
