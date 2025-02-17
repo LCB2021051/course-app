@@ -17,6 +17,7 @@ export const enrolStudent = createAsyncThunk(
         studentId: userId,
         courseId,
         paymentId,
+        progress: 0,
         timestamp: serverTimestamp(),
       });
       // Return consistent field: 'studentId' (not 'userId')

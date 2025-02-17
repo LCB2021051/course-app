@@ -31,14 +31,14 @@ const DashboardPage = () => {
 
       const coursesData = await Promise.all(
         enrolmentsSnapshot.docs.map(async (enrolmentDoc) => {
-          const { courseId } = enrolmentDoc.data();
+          const { courseId, progress = 0 } = enrolmentDoc.data(); // Get progress from enrolments
           if (!courseId) return null;
 
           const courseRef = doc(db, "courses", courseId);
           const courseSnap = await getDoc(courseRef);
           if (!courseSnap.exists()) return null;
 
-          return { id: courseId, ...courseSnap.data() };
+          return { id: courseId, ...courseSnap.data(), progress }; // Merge progress
         })
       );
 
@@ -50,7 +50,7 @@ const DashboardPage = () => {
 
   if (!user)
     return (
-      <div className="flex justify-center items-center h-screen mt-15">
+      <div className="flex justify-center items-center h-screen">
         <p className="text-gray-600 text-lg">
           Please log in to access the dashboard.
         </p>
@@ -63,7 +63,7 @@ const DashboardPage = () => {
       <div
         className="relative text-white py-30 text-center shadow-md bg-cover bg-center"
         style={{
-          backgroundImage: `url('https://img.freepik.com/free-vector/water-pollution-background-vector-with-droplet-border_53876-114050.jpg?t=st=1739734898~exp=1739738498~hmac=851e5839f7bd7408410c3516e41de94454875b754dd8d826f3e9ba9bec97fe2d&w=1380')`,
+          backgroundImage: `url('https://img.freepik.com/free-vector/water-pollution-background-vector-with-droplet-border_53876-114050.jpg?w=1380')`,
         }}
       >
         <h1 className="text-4xl font-extrabold text-white text-center">
@@ -112,7 +112,24 @@ const DashboardPage = () => {
                           </p>
                         </div>
 
-                        {/* 🔥 Likes & Enrolled Status */}
+                        {/* Progress Bar */}
+                        <div>
+                          <div className="relative h-3 w-full bg-gray-200 rounded-full">
+                            <div
+                              className={`absolute top-0 left-0 h-full rounded-full transition-all ${
+                                course.progress === 100
+                                  ? "bg-green-500"
+                                  : "bg-blue-500"
+                              }`}
+                              style={{ width: `${course.progress}%` }}
+                            ></div>
+                          </div>
+                          <p className="text-sm font-medium text-gray-700 mt-1">
+                            {course.progress}% Completed
+                          </p>
+                        </div>
+
+                        {/* Likes & Enrolled Status */}
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2 text-gray-700 font-semibold">
                             <svg

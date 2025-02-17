@@ -19,6 +19,8 @@ const CoursePage = () => {
     (state) => state.courses
   );
 
+  // console.log(currentCourse);
+
   // Local State
   const [userId, setUserId] = useState(null);
   const [hasLiked, setHasLiked] = useState(false);
@@ -89,7 +91,6 @@ const CoursePage = () => {
     return (
       <p className="text-center text-gray-500 mt-5">No course data found!</p>
     );
-  console.log(currentCourse.image);
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-8">
@@ -160,9 +161,28 @@ const CoursePage = () => {
               ${currentCourse.fee}
             </span>
           </p>
+
+          {/* Get Enrolled Button */}
           <div className="mt-4">
             <GetEnrolled courseId={id} amount={currentCourse.fee} />
           </div>
+
+          {/* 📌 Display Prerequisites Below */}
+          {currentCourse.prerequisites &&
+            currentCourse.prerequisites.length > 0 && (
+              <div className="mt-6">
+                <h4 className="text-lg font-semibold text-gray-800">
+                  Prerequisites
+                </h4>
+                <ul className="list-disc list-inside text-gray-600 mt-2">
+                  {currentCourse.prerequisites.map((prereq, index) => (
+                    <li key={index} className="text-gray-700">
+                      {prereq}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
         </div>
       </div>
     </div>

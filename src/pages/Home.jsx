@@ -12,6 +12,8 @@ const HomePage = () => {
     error,
   } = useSelector((state) => state.courses);
 
+  console.log(courses);
+
   const [search, setSearch] = useState("");
 
   useEffect(() => {
