@@ -66,7 +66,8 @@ const DashboardPage = () => {
           backgroundImage: `url('https://img.freepik.com/free-vector/water-pollution-background-vector-with-droplet-border_53876-114050.jpg?w=1380')`,
         }}
       >
-        <h1 className="text-4xl font-extrabold text-white text-center">
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <h1 className="relative z-10 text-4xl font-extrabold text-white text-center">
           My Enrolled Courses
         </h1>
       </div>
